@@ -9,16 +9,30 @@
 </head>
 
 <body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aframe/1.0.4/aframe.min.js"></script>
 
-  <div id="readingPage" class="container">
+<script>
+AFRAME.registerComponent('cursor-listener', {
+  init: function() {
+    var data = this.data;
+    var el = this.el;
+    el.addEventListener('click', function(evt) {alert('click');});
+  }
+});
+</script>
+<a-scene>
+  <a-box color="yellow" scale="4 4 4" position="0 0 -20" cursor-listener></a-box>
+  <a-camera>
+    <a-entity cursor="fuse: false;rayOrigin:mouse;" raycaster="objects:a-box" >
+    </a-entity>
+  </a-camera>
+    <div id="readingPage" class="container">
     <h1>Reading Page</h1>
-    <a-scene>
-      <a-box position="0 1.6 -5" color="#5527a0"></a-box>
-      <!-- You can add more A-Frame entities here as needed -->
-    </a-scene>
   </div>
 
   <button onclick="goBack()">Back</button>
+</a-scene>
+
 
   <script src="script.js"></script>
 </body>
