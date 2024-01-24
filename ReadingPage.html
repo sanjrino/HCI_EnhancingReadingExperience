@@ -16,21 +16,19 @@ AFRAME.registerComponent('cursor-listener', {
   init: function() {
     var data = this.data;
     var el = this.el;
-    el.addEventListener('click', function(evt) {alert('click');});
+    el.addEventListener('click', function(evt) {goBack();});
   }
 });
 </script>
 <a-scene>
-  <a-box color="yellow" scale="4 4 4" position="0 0 -20" cursor-listener></a-box>
+  <a-box color="yellow" scale="4 4 4" position="0 0 -20" cursor-listener>
+    <a-text color="#000000" text=" value: Back" position="-0.25 0 0.5"> </a-text>
+   </a-box>
+
   <a-camera>
     <a-entity cursor="fuse: false;rayOrigin:mouse;" raycaster="objects:a-box" >
     </a-entity>
   </a-camera>
-    <div id="readingPage" class="container">
-    <h1>Reading Page</h1>
-  </div>
-
-  <button onclick="goBack()">Back</button>
 </a-scene>
 
 
