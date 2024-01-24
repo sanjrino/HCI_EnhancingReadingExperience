@@ -6,8 +6,6 @@
   <link rel="stylesheet" href="styles.css">
   <title>Store</title>
 </head>
-<!-- ... existing code ... -->
-
 <body>
 
   <div id="store" class="container">
@@ -15,11 +13,27 @@
     <!-- Display list of available books for purchase -->
     <button onclick="addBook()">Add Book</button>
     <button onclick="navigate('ReadingPage')">Read Book</button>
+    <!-- New buttons to move books -->
+    <button onclick="moveBook('Book1')">Button1</button>
+    <button onclick="moveBook('Book2')">Button2</button>
   </div>
 
   <button onclick="goBack()">Back</button>
 
   <script src="script.js"></script>
+  <script>
+    function moveBook(bookName) {
+      fetch(`/move_book/${bookName}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            alert(data.message);
+          } else {
+            alert(`Error: ${data.message}`);
+          }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+  </script>
 </body>
 </html>
-
