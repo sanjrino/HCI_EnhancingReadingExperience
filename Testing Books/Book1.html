@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <style>
+        /* Style to make the Reload button visible */
+        button {
+            position: absolute;
+            padding: 10px;
+            font-size: 16px;
+            z-index: 9999; /* Set a higher z-index */
+        }
+
+        #reloadBtn {
+            top: 10px;
+            left: 10px;
+        }
+
+        #mainMenuBtn {
+            top: 10px;
+            left: 130px;
+        }
+
+        #goBackBtn {
+            top: 10px;
+            left: 250px;
+        }
+
+        #otherBtn {
+            top: 10px;
+            left: 370px;
+        }
+
+        /* Style for the labels */
+        .labels {
+            position: absolute;
+            font-size: 12px;
+            text-align: center;
+            width: 100%;
+            z-index: 9998;
+        }
+
+
+        #otherLabel {
+            top: 40px;
+            left: 360px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Reload button -->
+    <button id="reloadBtn" onclick="reloadScene();">Reload</button>
+
+    <button id="mainMenuBtn" onclick="alert('clicked Main Menu');">Main Menu</button>
+
+    <button id="goBackBtn" onclick="alert('clicked go back');">Go Back</button>
+
+    <button id="otherBtn" onclick="alert('clicked other buttons');">Other Buttons</button>
+
+    <div id="otherLabel" class="labels">Press e and q to cicle trough pages <br> and m n to rotate the book! </div>
+
+    <a-scene>
+        <!-- Sky -->
+        <a-sky color="#87CEEB"></a-sky>
+
+        <!-- Ground -->
+        <a-plane rotation="-90 0 0" width="30" height="30" color="#00AA00"></a-plane>
+
+        <!-- Book -->
+        <a-box position="0 1.5 -5.5" rotation="0 45 0" color="#8B4513" scale="1 2 0.2" id="book">
+            <!-- Pages of the book -->
+            <a-plane position="0 0.1 0.1" rotation="0 0 0" width="0.8" height="1.8" color="#FFF"></a-plane>
+            <a-plane position="0 0.1 0" rotation="0 0 0" width="0.8" height="1.8" color="#FFF"></a-plane>
+            <!-- Add more pages as needed -->
+        </a-box>
+
+        <!-- Text -->
+        <a-text value="Lord of the Rings" position="0 1.8 -4" color="#000" id="text"></a-text>
+    </a-scene>
+
+    <!-- Add this script tag inside the head of your HTML file -->
+    <script>
+        var texts = ["Lord of the Rings", "Chapter 1", "blablabla", "Chapter 2", "blablabla", "Chapter 3", "blablabla", "The End"];
+        var currentIndex = 0;
+
+        function reloadScene() {
+            location.reload();
+        }
+
+        document.addEventListener('keydown', function(event) {
+            var book = document.querySelector('#book');
+            var text = document.querySelector('#text');
+            var currentRotation = book.getAttribute('rotation');
+            
+            if (event.key === 'm') {
+                // Flip forward (increase Y rotation)
+                currentRotation.y += 10;
+            } else if (event.key === 'n') {
+                // Flip backward (decrease Y rotation)
+                currentRotation.y -= 10;
+            } else if (event.key === 'e') {
+                // Cycle through predefined texts
+                currentIndex = (currentIndex + 1) % texts.length;
+                text.setAttribute('value', texts[currentIndex]);
+            } else if ((event.key === 'q') && (currentIndex > 0)) {
+                // Cycle through predefined texts
+                currentIndex = (currentIndex - 1) % texts.length;
+                text.setAttribute('value', texts[currentIndex]);
+            }
+
+            book.setAttribute('rotation', currentRotation);
+        });
+    </script>
+</body>
+</html>
