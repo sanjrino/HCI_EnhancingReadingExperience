@@ -8,8 +8,10 @@
   <title>Store</title>
 </head>
 <body>
-  <button onclick="goBack()">Back</button>  <br>
-  <button onclick="navigate('Main')">Go to Main Page</button>
+  <button onclick="goBack()" class="navButtons">Back</button>  <br>
+  <button onclick="navigate('Main')" class="navButtons">Go to Main Page</button>
+  <button onclick="navigate('Settings')" class="navButtons">Go to Settings</button>
+
 
   <div id="store" class="container">
     <h1>Store</h1>
@@ -17,13 +19,8 @@
       <!-- Book buttons will be dynamically added here -->
     </div>
     <p id="noBooksMessage" style="display: none;">All available books have been downloaded! Go to the library to read them.</p>
-    <!--
-    <button id="addBookButton" onclick="addBook()" style="display: none;">Add Book</button>
-    -->
-    <button onclick="navigate('Library')">Go to Library</button>
+    <button onclick="navigate('Library')" class="navButtons">Go to Library</button>
   </div>
-
-  
 
   <script src="script.js"></script>
   <script>
