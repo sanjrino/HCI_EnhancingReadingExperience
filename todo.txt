@@ -1,14 +1,7 @@
-Hello,
+Future projects:
 
-For now we have a couple of working parts, but still missing the integration itself.
-
-1)  I'd stick with the node version of the file transfering. We have to make it work with the other pages, and of course rename the folders
-
-2) After it is done, we need to make the library output the books we have, and speaking of:
-
-3) I did one book prototype, It needs to be much more lookable (Book scaled correctly, more text formatted in a better way etc)
-
-4)  Final polishing touches, including doing some CSS and maybe js animations. This is the last step.
-
-
-The tasks are in importance order. First we do 1, then 2 etc. 
+Make store work (StoreBooks content moved to LibraryBooks when the button is clicked)
+A decent looking book
+Make the whole app more pretty, CSS etc
+Confirmation alerts
+...
