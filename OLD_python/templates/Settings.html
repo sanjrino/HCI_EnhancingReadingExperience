@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <title>Settings</title>
+</head>
+<!-- ... existing code ... -->
+
+<body>
+
+  <div id="settings" class="container">
+    <h1>Settings</h1>
+    <!-- Display settings with sliders -->
+    <p>Brightness: <span id="brightnessValue">50</span></p>
+    <input type="range" min="0" max="100" value="50" id="brightnessSlider" oninput="updateBrightness(this.value)">
+
+    <p>Smell: <span id="smellValue">50</span></p>
+    <input type="range" min="0" max="100" value="50" id="smellSlider" oninput="updateSmell(this.value)">
+
+    <p>Sound: <span id="soundValue">50</span></p>
+    <input type="range" min="0" max="100" value="50" id="soundSlider" oninput="updateSound(this.value)">
+  </div>
+
+  <button onclick="goBack()">Back</button>
+
+  <script src="script.js"></script>
+</body>
+</html>

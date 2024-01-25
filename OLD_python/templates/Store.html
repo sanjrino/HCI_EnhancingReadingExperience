@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <title>Store</title>
+</head>
+<body>
+
+  <div id="store" class="container">
+    <h1>Store</h1>
+    <!-- Display list of available books for purchase -->
+    <button onclick="addBook()">Add Book</button>
+    <button onclick="navigate('ReadingPage')">Read Book</button>
+    <!-- New buttons to move books -->
+    <button onclick="moveBook('Book1')">Button1</button>
+    <button onclick="moveBook('Book2')">Button2</button>
+  </div>
+
+  <button onclick="goBack()">Back</button>
+
+  <script src="script.js"></script>
+  <script>
+    function moveBook(bookName) {
+      fetch(`/move_book/${bookName}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            alert(data.message);
+          } else {
+            alert(`Error: ${data.message}`);
+          }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+  </script>
+</body>
+</html>
