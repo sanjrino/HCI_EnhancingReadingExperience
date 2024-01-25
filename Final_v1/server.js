@@ -1,5 +1,6 @@
 const express = require('express');
 const fs = require('fs');
+const https = require('https');
 const path = require('path');
 
 const app = express();
@@ -27,8 +28,6 @@ app.get('/get_books', (req, res) => {
     res.status(500).json({ success: false, error: 'Internal Server Error', details: error.message });
   }
 });
-
-
 
 // Handle POST request to move a book
 app.post('/move_book/:folderName/:bookName', (req, res) => {
@@ -62,7 +61,16 @@ app.get('/', (req, res) => {
   res.send(mainPageContent);
 });
 
-const PORT = 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+const networkIP = '192.168.0.79'; // Change this to your local network IP
+const networkPort = 3000;
+
+// Load the SSL certificate files (replace 'key.pem' and 'cert.pem' with your actual files)
+const privateKey = fs.readFileSync('key.pem', 'utf8');
+const certificate = fs.readFileSync('cert.pem', 'utf8');
+const credentials = { key: privateKey, cert: certificate };
+
+const httpsServer = https.createServer(credentials, app);
+
+httpsServer.listen(networkPort, networkIP, () => {
+  console.log(`Server is running on https://${networkIP}:${networkPort}`);
 });
