@@ -20,3 +20,6 @@ Overall this is a very work in progress prototype, but it can still showcase the
 It is not much, but for the little time I had, I am happy that I was able to learn UnrealEngine enough to launch a couple of test scenes with interactive objects, 
 and that this little test website even worked. There is a lot to work on, in case the idea should be continued, but its a start, and thats what matters.
 
+In the LibraryBooks and StoreBooks I used https://github.com/stemkoski/A-Frame-Examples . Those are amazing examples that showcase the possibilities of VR inside of a web browser
+
+

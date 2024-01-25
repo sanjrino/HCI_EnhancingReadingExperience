@@ -37,14 +37,16 @@
           // Check if there are books in the store
           if (data.booksInStore && data.booksInStore.length > 0) {
             // Add a button for each book in the store
-            data.booksInStore.forEach(bookName => {
-              const button = document.createElement('button');
-              button.innerText = bookName;
-              button.onclick = function () {
-                moveBook('StoreBooks', 'LibraryBooks', bookName);
-              };
-              storeButtonsContainer.appendChild(button);
-            });
+            data.booksInStore
+              .filter(bookName => bookName.endsWith('.html')) // Filter only .html files
+              .forEach(bookName => {
+                const button = document.createElement('button');
+                button.innerText = bookName;
+                button.onclick = function () {
+                  moveBook('StoreBooks', 'LibraryBooks', bookName);
+                };
+                storeButtonsContainer.appendChild(button);
+              });
 
             // Hide the no books message
             noBooksMessage.style.display = 'none';

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>A-Frame: Quest video game player (BAGEL)</title>
+    <script src="js/aframe-master-v1.3.0.min.js"></script>
+    <script src="js/aframe-environment-component.js"></script>
+    <script src="js/controller-listener.js"></script>
+    <script src="js/player-move.js"></script>
+    <script src="js/raycaster-extras.js"></script>
+
+    <script src="js/gamepad-model.js"></script>
+    <script src="BAGEL/BAGEL-AFrame.js"></script>
+    <script src="BAGEL/BAGEL-game-component.js"></script>
+
+    <!-- load game file and copy game class into variable accessible by component -->
+    <script src="BAGEL/SpaceRocks.js"></script>
+    <script> window["SpaceRocks"] = SpaceRocks; </script>
+
+</head>
+
+<body>
+
+<script></script>
+
+<a-scene environment="preset: default;">
+        
+    <a-assets>
+        <!-- used by raycaster-extras -->
+        <img id="gradient" src="images/gradient-fade.png" />
+
+        <!-- used by gamepad-model -->
+        <img id="circleBlank" src="images/circle-blank.png" />
+        <img id="circleA"     src="images/circle-A.png" />
+        <img id="circleB"     src="images/circle-B.png" />
+        <img id="circleX"     src="images/circle-X.png" />
+        <img id="circleY"     src="images/circle-Y.png" />
+
+        <!-- use to display game graphics -->
+        <canvas id="game-canvas" width=800 height=600></canvas>
+    </a-assets>
+
+    <a-sky 
+        color = "#001337">
+    </a-sky>
+
+    <a-entity 
+      id="player" 
+      position="0 0 0" 
+      player-move="controllerListenerId: #controller-data;
+                    navigationMeshClass: environmentGround;">
+        
+      <a-camera></a-camera>
+    
+      <a-entity 
+          id="controller-data" 
+          controller-listener="leftControllerId:  #left-controller; 
+                               rightControllerId: #right-controller;">
+      </a-entity>
+
+      <a-entity 
+          id="left-controller"
+          oculus-touch-controls="hand: left">
+      </a-entity>
+
+      <a-entity
+          id="right-controller"
+          oculus-touch-controls="hand: right"
+          raycaster="objects: .raycaster-target, .environmentGround;"
+          raycaster-extras="controllerListenerId: #controller-data; 
+                            beamImageSrc: #gradient; beamLength: 0.5;">
+      </a-entity>
+
+    </a-entity>
+
+    <a-entity
+        gamepad-model="controllerListenerId: #controller-data; 
+                       playerMoveId: #player;
+                       gameDisplayId: #game-model-display;
+                       bagelGameComponentId: #game-model-display;"
+        position="0 1.6 -1">
+
+        <a-plane
+            id = "game-model-display"
+            material = "shader: flat; src: #game-canvas;"
+            bagel-game-component="controllerListenerId: #controller-data;
+                                  canvasId: #game-canvas;
+                                  displayId: #game-model-display;
+                                  gameClassName: SpaceRocks;">        
+        </a-plane>
+    </a-entity>
+
+    <!-- scenery -->
+
+    <a-torus-knot 
+        p="2" q="3" radius="0.5" radius-tubular="0.1"
+        position = "-2.5 1.5 -4"
+        color="#CC3333"
+        raycaster-target>
+    </a-torus-knot>
+    
+    <a-box
+        width = "2" height = "1" depth = "1"
+        position = "-1 0.5 -3"
+        rotation = "0 45 0"  
+        color = "#FF8800"
+        raycaster-target>
+    </a-box>
+
+    <a-sphere
+        radius = "1.25"
+        position = "0 1.25 -5"
+        color = "#DDBB00"
+        raycaster-target>
+    </a-sphere>
+    
+    <a-cylinder
+        radius = "0.5" height = "1.5"
+        position = " 1 0.75 -3"
+        color = "#008800" 
+        raycaster-target>
+    </a-cylinder>
+
+    <a-cone
+        radius-bottom = "1" radius-top = "0" height = "2"
+        position = "3 1 -4"
+        color = "#4444CC"
+        raycaster-target>
+    </a-cone>
+    
+    <a-torus 
+        radius="0.5" radius-tubular="0.1"
+        position = "2 3 -4"
+        rotation = "30 -20 0"
+        color="#8800FF"
+        raycaster-target>
+    </a-torus>
+
+
+</a-scene>
+
+</body>
+</html>

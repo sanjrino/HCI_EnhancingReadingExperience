@@ -32,37 +32,38 @@
   <script src="script.js"></script>
   <script>
     // Function to dynamically add book buttons to the library
-    // Function to dynamically add book buttons to the library
-function addBookButtons() {
-  fetch('/get_books')
-    .then(response => response.json())
-    .then(data => {
-      const libraryButtonsContainer = document.getElementById('libraryButtons');
-      const noBooksMessage = document.getElementById('noBooksMessage');
+    function addBookButtons() {
+      fetch('/get_books')
+        .then(response => response.json())
+        .then(data => {
+          const libraryButtonsContainer = document.getElementById('libraryButtons');
+          const noBooksMessage = document.getElementById('noBooksMessage');
 
-      // Clear existing buttons
-      libraryButtonsContainer.innerHTML = '';
+          // Clear existing buttons
+          libraryButtonsContainer.innerHTML = '';
 
-      // Check if data is received and if it has booksInLibrary
-      if (data && 'booksInLibrary' in data && data.booksInLibrary.length > 0) {
-        noBooksMessage.style.display = 'none';
+          // Check if data is received and if it has booksInLibrary
+          if (data && 'booksInLibrary' in data && data.booksInLibrary.length > 0) {
+            noBooksMessage.style.display = 'none';
 
-        // Add a button for each book in the library
-        data.booksInLibrary.forEach(bookName => {
-          const button = document.createElement('button');
-          button.innerText = bookName;
-          button.onclick = function () {
-            openBookInNewTab(bookName);
-          };
-          libraryButtonsContainer.appendChild(button);
-        });
-      } else {
-        // If there are no books in the library, display the message
-        noBooksMessage.style.display = 'block';
-      }
-    })
-    .catch(error => console.error('Error:', error));
-}
+            // Add a button for each book in the library
+            data.booksInLibrary
+              .filter(bookName => bookName.endsWith('.html')) // Filter only .html files
+              .forEach(bookName => {
+                const button = document.createElement('button');
+                button.innerText = bookName;
+                button.onclick = function () {
+                  openBookInNewTab(bookName);
+                };
+                libraryButtonsContainer.appendChild(button);
+              });
+          } else {
+            // If there are no books in the library, display the message
+            noBooksMessage.style.display = 'block';
+          }
+        })
+        .catch(error => console.error('Error:', error));
+    }
 
     // Call the function to add book buttons when the library page loads
     document.addEventListener('DOMContentLoaded', function () {

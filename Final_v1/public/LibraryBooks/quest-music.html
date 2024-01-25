@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>A-Frame: Music Player</title>
+    <meta name="description" content="Creating a music player that interacts with Quest touch controllers.">
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+    <script src="js/aframe-environment-component.js"></script>
+    <script src="js/controller-listener.js"></script>
+    <script src="js/player-move.js"></script>
+    <script src="js/raycaster-extras.js"></script>
+    <script src="js/music-player.js"></script>
+</head>
+
+<body>
+
+<script>
+// load music into global variable for access by music-player component
+window["MusicData"] = [
+    {
+        audioURL: "music/ChauSara/Mando.mp3", 
+        imageURL: "music/ChauSara/image.jpg", 
+        songText: "Artist: Chau Sara --- Song: Mondo \n (music provided by Lofi Girl)"
+    },
+    {
+        audioURL: "music/Osaki/Reflections.mp3", 
+        imageURL: "music/Osaki/image.jpg", 
+        songText: "Artist: Osaki --- Song: Reflections \n (music provided by Lofi Girl)"
+    },
+    {
+        audioURL: "music/Khutko/Violet.mp3", 
+        imageURL: "music/Khutko/image.jpg", 
+        songText: "Artist: Khutko --- Song: Violet \n (music provided by Lofi Girl)"
+    }
+];
+</script>
+
+<a-scene environment="preset: default;" renderer="antialias: true;">
+        
+    <a-assets>
+        <img id="gradient" src="images/gradient-fade.png" />
+        <!-- icons used by music-player component -->
+        <img id="iconBlank"      src="images/icon-blank.jpg" />        
+        <img id="iconWait"       src="images/icon-wait.jpg" />        
+        <img id="iconPlay"       src="images/icon-play.jpg" />        
+        <img id="iconPause"      src="images/icon-pause.jpg" />        
+        <img id="iconNext"       src="images/icon-next.jpg" />        
+        <img id="iconPrevious"   src="images/icon-previous.jpg" />        
+        <img id="iconReplay"     src="images/icon-replay.jpg" />        
+        <img id="iconPlayOnce"   src="images/icon-play-once.jpg" />        
+        <img id="iconPlayLoop"   src="images/icon-play-loop.jpg" />        
+        <img id="iconPlayAll"    src="images/icon-play-all.jpg" />        
+        <img id="iconVolumeUp"   src="images/icon-volume-up.jpg" />        
+        <img id="iconVolumeDown" src="images/icon-volume-down.jpg" />        
+    </a-assets>
+
+    <a-sky 
+        color = "#001337">
+    </a-sky>
+
+    <!-- player entity -->
+    <a-entity 
+        id="player" 
+        position="0 0 0" 
+        player-move="controllerListenerId: #controller-data;
+                     navigationMeshClass: environmentGround;">
+        
+        <a-camera></a-camera>
+    
+        <a-entity 
+            id="controller-data" 
+            controller-listener="leftControllerId:  #left-controller; 
+                                 rightControllerId: #right-controller;">
+        </a-entity>
+
+        <a-entity 
+            id="left-controller"
+            oculus-touch-controls="hand: left">
+        </a-entity>
+
+        <a-entity
+            id="right-controller"
+            oculus-touch-controls="hand: right"
+            raycaster="objects: .raycaster-target, .environmentGround;"
+            raycaster-extras="controllerListenerId: #controller-data; 
+                              beamImageSrc: #gradient; beamLength: 0.5;">
+        </a-entity>
+
+    </a-entity>
+
+    <a-entity
+        position = "0 1 -2"
+        music-player="controllerListenerId: #controller-data;
+                      musicDataVariableName: MusicData;">
+    </a-entity>
+
+    <a-torus-knot 
+        p="2" q="3" radius="0.5" radius-tubular="0.1"
+        position = "-2.5 1.5 -4"
+        color="#CC3333"
+        class="raycaster-target"
+        raycaster-target>
+    </a-torus-knot>
+    
+    <a-box
+        width = "2" height = "1" depth = "1"
+        position = "-1 0.5 -3"
+        rotation = "0 45 0"  
+        color = "#FF8800"
+        class="raycaster-target"
+        raycaster-target>
+    </a-box>
+
+    <a-sphere
+        radius = "1.25"
+        position = "0 1.25 -5"
+        color = "#DDBB00"
+        class="raycaster-target"
+        raycaster-target>
+    </a-sphere>
+    
+    <a-cylinder
+        radius = "0.5" height = "1.5"
+        position = " 1 0.75 -3"
+        color = "#008800" 
+        class="raycaster-target"
+        raycaster-target>
+    </a-cylinder>
+
+    <a-cone
+        radius-bottom = "1" radius-top = "0" height = "2"
+        position = "3 1 -4"
+        color = "#4444CC"
+        class="raycaster-target"
+        raycaster-target>
+    </a-cone>
+    
+    <a-torus 
+        radius="0.5" radius-tubular="0.1"
+        position = "2 3 -4"
+        rotation = "30 -20 0"
+        color="#8800FF"
+        class="raycaster-target"
+        raycaster-target>
+    </a-torus>
+
+</a-scene>
+
+</body>
+</html>
