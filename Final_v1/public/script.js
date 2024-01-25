@@ -55,11 +55,6 @@ function addBookButtons() {
     .catch(error => console.error('Error:', error));
 }
 
-// Call the function to add book buttons when the store page loads
-document.addEventListener('DOMContentLoaded', function () {
-  addBookButtons();
-});
-
 // Function to move a book
 function moveBook(sourceFolder, destinationFolder, bookName) {
   fetch(`/move_book/${sourceFolder}/${destinationFolder}/${bookName}`)
@@ -74,4 +69,10 @@ function moveBook(sourceFolder, destinationFolder, bookName) {
       }
     })
     .catch(error => console.error('Error:', error));
+}
+
+// Add a function to handle adding books (if needed)
+function addBook() {
+  // Add your logic to handle adding books
+  alert('Add Book function triggered');
 }
