@@ -1,5 +1,8 @@
 HCI project about enchancing reading experience.
 
+Video on youtube avaible here:
+https://youtu.be/49qM4KJfdSY?si=2JEwHN0wqiQaoNAh
+
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Some talking:
