@@ -34,3 +34,18 @@ body {
   font-weight: bold;
   color: #ffffff;
 }
+
+button {
+  background-color: #4CAF50; /* Green background color */
+  color: white; /* White text color */
+  padding: 15px 30px; /* Updated padding inside the button for a larger size */
+  margin: 10px; /* Updated margin around the button */
+  border: none; /* No border */
+  border-radius: 8px; /* Rounded corners */
+  cursor: pointer; /* Cursor on hover */
+}
+
+/* Hover effect */
+button:hover {
+  background-color: #45a049; /* Darker green background color on hover */
+}
