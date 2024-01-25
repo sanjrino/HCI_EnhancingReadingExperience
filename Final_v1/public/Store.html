@@ -1,3 +1,4 @@
+<!-- Store.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,30 +11,59 @@
 
   <div id="store" class="container">
     <h1>Store</h1>
-    <!-- Display list of available books for purchase -->
-    <button onclick="addBook()">Add Book</button>
-    <button onclick="navigate('ReadingPage')">Read Book</button>
-    <!-- New buttons to move books -->
-    <button onclick="moveBook('Book1')">Button1</button>
-    <button onclick="moveBook('Book2')">Button2</button>
+    <div id="storeButtons">
+      <!-- Book buttons will be dynamically added here -->
+    </div>
+    <p id="noBooksMessage" style="display: none;">All available books have been downloaded! Go to the library to read them.</p>
+    <button id="addBookButton" onclick="addBook()" style="display: none;">Add Book</button>
+    <button onclick="navigate('Library')">Go to Library</button>
   </div>
 
   <button onclick="goBack()">Back</button>
 
   <script src="script.js"></script>
   <script>
-    function moveBook(bookName) {
-      fetch(`/move_book/${bookName}`)
+    // Function to dynamically add book buttons to the store
+    function addBookButtons() {
+      fetch('/get_books')
         .then(response => response.json())
         .then(data => {
-          if (data.success) {
-            alert(data.message);
+          const storeButtonsContainer = document.getElementById('storeButtons');
+          const noBooksMessage = document.getElementById('noBooksMessage');
+          const addBookButton = document.getElementById('addBookButton');
+
+          storeButtonsContainer.innerHTML = ''; // Clear existing buttons
+
+          // Check if there are books in the store
+          if (data.booksInStore && data.booksInStore.length > 0) {
+            // Add a button for each book in the store
+            data.booksInStore.forEach(bookName => {
+              const button = document.createElement('button');
+              button.innerText = bookName;
+              button.onclick = function () {
+                moveBook('StoreBooks', 'LibraryBooks', bookName);
+              };
+              storeButtonsContainer.appendChild(button);
+            });
+
+            // Hide the no books message
+            noBooksMessage.style.display = 'none';
+
+            // Show the "Add Book" button
+            addBookButton.style.display = 'block';
           } else {
-            alert(`Error: ${data.message}`);
+            // If there are no books in the store, display the message and hide the "Add Book" button
+            noBooksMessage.style.display = 'block';
+            addBookButton.style.display = 'none';
           }
         })
         .catch(error => console.error('Error:', error));
     }
+
+    // Call the function to add book buttons when the store page loads
+    document.addEventListener('DOMContentLoaded', function () {
+      addBookButtons();
+    });
   </script>
 </body>
 </html>

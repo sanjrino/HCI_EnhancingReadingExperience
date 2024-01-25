@@ -1,3 +1,4 @@
+<!-- Library.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,19 +7,82 @@
   <link rel="stylesheet" href="styles.css">
   <title>Library</title>
 </head>
-<!-- ... existing code ... -->
-
 <body>
 
   <div id="library" class="container">
     <h1>Library</h1>
-    <!-- Display list of books from the library -->
-    <button onclick="navigate('ReadingPage')">Read Book</button>
+    
+    <!-- Check if there are books in the library -->
+    <div id="libraryButtons">
+      <!-- Book buttons will be dynamically added here -->
+    </div>
+
     <button onclick="navigate('Store')">Go to Store</button>
+
+    <div id="noBooksMessage" style="display: none;">
+      <p>No books in the library. Go to the store to add books.</p>
+      <button onclick="navigate('Store')">Go to Store</button>
+    </div>
   </div>
+
+  <!-- Button to go to Store -->
 
   <button onclick="goBack()">Back</button>
 
   <script src="script.js"></script>
+  <script>
+    // Function to dynamically add book buttons to the library
+    // Function to dynamically add book buttons to the library
+function addBookButtons() {
+  fetch('/get_books')
+    .then(response => response.json())
+    .then(data => {
+      const libraryButtonsContainer = document.getElementById('libraryButtons');
+      const noBooksMessage = document.getElementById('noBooksMessage');
+
+      // Clear existing buttons
+      libraryButtonsContainer.innerHTML = '';
+
+      // Check if data is received and if it has booksInLibrary
+      if (data && 'booksInLibrary' in data && data.booksInLibrary.length > 0) {
+        noBooksMessage.style.display = 'none';
+
+        // Add a button for each book in the library
+        data.booksInLibrary.forEach(bookName => {
+          const button = document.createElement('button');
+          button.innerText = bookName;
+          button.onclick = function () {
+            openBookInNewTab(bookName);
+          };
+          libraryButtonsContainer.appendChild(button);
+        });
+      } else {
+        // If there are no books in the library, display the message
+        noBooksMessage.style.display = 'block';
+      }
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+    // Call the function to add book buttons when the library page loads
+    document.addEventListener('DOMContentLoaded', function () {
+      addBookButtons();
+    });
+
+    // Function to open a book in a new tab
+    function openBookInNewTab(bookName) {
+      window.open(`LibraryBooks/${bookName}`, '_blank');
+    }
+
+    // Function to navigate to a page
+    function navigate(page) {
+      window.location.href = page.toLowerCase() + '.html';
+    }
+
+    // Function to go back
+    function goBack() {
+      window.history.back();
+    }
+  </script>
 </body>
 </html>

@@ -1,81 +1,11 @@
 // script.js
 
-// Function to navigate to a specific page
 function navigate(page) {
   window.location.href = page.toLowerCase() + '.html';
 }
 
-// Function to go back to the previous page
-function goBack() {
-  window.history.back();
-}
-
-// Function to add a book to the library
-function addBook() {
-  // Add logic to add a new book to the library
-  alert('Book added to library!');
-}
-
-// Function to navigate to the next page in the book
-function nextPage() {
-  // Add logic to go to the next page in the book
-  alert('Next page');
-}
-// script.js
-
-// ... existing code ...
-
-// Function to update brightness value
-function updateBrightness(value) {
-  document.getElementById('brightnessValue').innerText = value;
-  // Apply brightness changes (this is just a placeholder, you may need to implement platform-specific brightness adjustment)
-  adjustBrightness(value);
-}
-
-// Function to update smell value
-function updateSmell(value) {
-  document.getElementById('smellValue').innerText = value;
-  // Apply smell changes (this is just a placeholder, you may need to implement platform-specific smell adjustment)
-  adjustSmell(value);
-}
-
-// Function to update sound value
-function updateSound(value) {
-  document.getElementById('soundValue').innerText = value;
-  // Apply sound changes (this is just a placeholder, you may need to implement platform-specific sound adjustment)
-  adjustSound(value);
-}
-
-// Placeholder functions for applying changes
-function adjustBrightness(value) {
-  // Implement logic to adjust brightness in your VR environment
-  console.log('Brightness adjusted to:', value);
-}
-
-function adjustSmell(value) {
-  // Implement logic to adjust smell in your VR environment
-  console.log('Smell adjusted to:', value);
-}
-
-function adjustSound(value) {
-  // Implement logic to adjust sound in your VR environment
-  console.log('Sound adjusted to:', value);
-}
-
-// script.js
-
 document.addEventListener('DOMContentLoaded', function () {
-  // Add your initialization logic here if needed
-});
-
-function goBack() {
-  window.history.back();
-}
-
-// script.js
-
-document.addEventListener('DOMContentLoaded', function () {
-  // Add your initialization logic here if needed
+  addBookButtons();
 });
 
 function goBack() {
@@ -91,3 +21,57 @@ AFRAME.registerComponent('cursor-listener', {
     });
   }
 });
+
+// Function to dynamically add book buttons to the library
+function addBookButtons() {
+  fetch('/get_books')
+    .then(response => response.json())
+    .then(data => {
+      const storeButtonsContainer = document.getElementById('storeButtons');
+      const noBooksMessage = document.getElementById('noBooksMessage');
+
+      // Clear existing buttons
+      storeButtonsContainer.innerHTML = '';
+
+      // Check if there are books in the store
+      if (data.booksInStore && data.booksInStore.length > 0) {
+        // Add a button for each book in the store
+        data.booksInStore.forEach(bookName => {
+          const button = document.createElement('button');
+          button.innerText = bookName;
+          button.onclick = function () {
+            moveBook('StoreBooks', 'LibraryBooks', bookName);
+          };
+          storeButtonsContainer.appendChild(button);
+        });
+
+        // Hide the no books message
+        noBooksMessage.style.display = 'none';
+      } else {
+        // If there are no books in the store, display the message
+        noBooksMessage.style.display = 'block';
+      }
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+// Call the function to add book buttons when the store page loads
+document.addEventListener('DOMContentLoaded', function () {
+  addBookButtons();
+});
+
+// Function to move a book
+function moveBook(sourceFolder, destinationFolder, bookName) {
+  fetch(`/move_book/${sourceFolder}/${destinationFolder}/${bookName}`)
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        alert(data.message);
+        // Refresh the page or update book buttons after moving
+        addBookButtons();
+      } else {
+        alert(`Error: ${data.message}`);
+      }
+    })
+    .catch(error => console.error('Error:', error));
+}
